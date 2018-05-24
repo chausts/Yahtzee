@@ -10,7 +10,19 @@ public class Yahtzee
         int maxRolls = 3;
         int finalMoveIndex = 0;
         int finalMoveScore = 0;
-        computer.setScore(finalMoveIndex, finalMoveScore);
+        int[] tempScorecard = new int[13];
+        
+        //find open categories
+        for (int i = 0; i < computer.scores.length; i++) {
+            if (computer.scores[i] == -1) {
+               if (i == Scorecard.ACES) {
+                   for (int k = 0; k < roll.rolls.length; k++) {
+                       if (roll.rolls[k].face == Scorecard.ACES) tempScorecard[i] += roll.rolls[k].face;
+                    }
+                }
+            }
+        }
+        
         return roll;
     }
     
