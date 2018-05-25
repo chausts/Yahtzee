@@ -2,6 +2,7 @@ public class Scorecard {
     public int[] scores = new int[13];
     public boolean isComputer;
     public String playerName;
+    public int numYahtzeeBonuses = 0;
     
     public static final int ACES = 0;
     public static final int TWOS = 1;
