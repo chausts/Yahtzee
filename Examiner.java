@@ -76,6 +76,16 @@ public class Examiner
         return score;
     }
     
+    public int getUpperScore(Scorecard scorecard, Roll roll) {
+        int score = 0;
+        
+        for (int i = 0; i < 6; i++) {
+            score += getCategoryScore(scorecard, roll, i);
+        }
+        
+        return score;
+    }
+    
     
     public int getOptimalCategory(Scorecard scorecard, Roll roll) {
         int optimalCategoryIndex = 0;
@@ -88,8 +98,17 @@ public class Examiner
             if (scores[i] != -1) continue;
             
             int categoryScore = getCategoryScore(scorecard, roll, i);
+            int upperScore = getUpperScore(scorecard, roll);
+            boolean isUpper = i < 6;
+            if (isUpper && upperScore < 63 && (categoryScore + upperScore) >= 63) {
+                categoryScore += 35;
+            }
+            
+            if (optimalCategoryScore < categoryScore) {
+                optimalCategoryIndex = i;
+                optimalCategoryScore = categoryScore - 35;
+            }
         }
-        
         return optimalCategoryIndex;
     }
 }
