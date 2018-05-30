@@ -72,8 +72,8 @@ public class Examiner {
         ArrayList<Integer> keep = new ArrayList<Integer>();
         for (int k = 0; k < optimalReRolls.length; k++) {
             for (int i = 0; i < basicRoll.length; i++) {
-                if (optimalReRolls[k] == basicRoll[i]) {
-                    keep.add(basicRoll[i]);
+                if (optimalReRolls[k] == basicRoll[k]) {
+                    keep.add(toIntegerArray(roll)[k]);
                     break;
                 }
             }
