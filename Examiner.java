@@ -31,7 +31,7 @@ public class Examiner {
      * @param roll      The specificed roll which should be analyzed.
      * @return          Optimal dices to keep.
      */
-    public static int[] getOptimalKeep(Scorecard scorecard, Roll roll) {
+    public static int[] getOptimalReRoll(Scorecard scorecard, Roll roll) {
         // Set standards for the current optimal.
         int optimalCategory = getOptimalCategory(scorecard, roll);
         int optimalCategoryScore = getCategoryScore(optimalCategory, roll.rolls);
@@ -44,7 +44,7 @@ public class Examiner {
         if (states == null) { states = new RollStates().states; }
         
         // Level of comparison based on original
-        int level = (getCategoryScore(8, roll.rolls) != 0) ? 5 : 3;
+        int level = (getCategoryScore(8, roll.rolls) != 0) ? 3 : 4;
         
         // Finds most optimal category based on similar states and level.
         ArrayList<int[]> matches = getMatches(basicRoll, states, level);
@@ -81,11 +81,31 @@ public class Examiner {
         
         // Convert back to an integer array.
         int[] merge = new int[keep.size()];
+        int[] basic = toIntegerArray(roll);
+        ArrayList<Integer> availible = new ArrayList<Integer>(keep);
         for (int i = 0; i < keep.size(); i++) {
-            merge[i] = keep.get(i);
+            if (availible.indexOf(keep.get(i)) != -1) {
+                int index = -1;
+                for (int k = 0; k < basic.length; k++) {
+                    if (basic[k] == availible.get(availible.indexOf(keep.get(i)))) {
+                        basic[k] = -1;
+                        index = k;
+                        break;
+                    }
+                }
+                merge[i] = index;
+            }
         }
-        
-        return merge;
+        Arrays.sort(merge);
+        ArrayList<Integer> a = new ArrayList<Integer>();
+        for (int i = 0; i < merge.length; i++) {
+            if (i == merge[i]) continue;
+            a.add(i);
+        }
+        int[] re = new int[a.size()];
+        for (int i = 0; i < a.size(); i++) {
+        }
+        return re;
     }
     
     /**
