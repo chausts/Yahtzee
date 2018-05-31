@@ -104,6 +104,7 @@ public class Examiner {
         }
         int[] re = new int[a.size()];
         for (int i = 0; i < a.size(); i++) {
+            re[i] = a.get(i);
         }
         return re;
     }
