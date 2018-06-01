@@ -28,6 +28,7 @@ public class Roll {
     
     public void reRoll (int index) {
         rolls[index].reRoll();
+        buildToString();
     }
     
     public Dice getDice (int index) {
