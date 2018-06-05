@@ -66,18 +66,23 @@ public class Examiner {
                 optimalCategory = category;
                 optimalCategoryScore = categoryScore;
                 optimalReRolls = set;
-                System.out.println("OPTIMAL:" + categoryScore);
             }
         }
         // Generate list of optimal dice to be kept.
         ArrayList<Integer> keep = new ArrayList<Integer>();
+        Set<Integer> keepClear = new HashSet<Integer>();
         for (int k = 0; k < optimalReRolls.length; k++) {
             for (int i = 0; i < basicRoll.length; i++) {
-                if (optimalReRolls[k] == basicRoll[k]) {
+                if (optimalReRolls[i] == basicRoll[k]) {
                     keep.add(toIntegerArray(roll)[k]);
                     break;
                 }
             }
+        }
+        if (optimalCategory == Scorecard.SMALL_STRAIGHT || optimalCategory == Scorecard.LARGE_STRAIGHT) {
+            keepClear.addAll(keep);
+            keep.clear();
+            keep.addAll(keepClear);
         }
         int[] merge = new int[keep.size()];
         for (int i = 0; i < keep.size(); i++) {
@@ -104,9 +109,13 @@ public class Examiner {
         int optimalCategoryScore = 0;
         
         // Iterate through each of the scores
-        for (int i = 0; i < scores.length; i++) {
+        for (int i = 0; i < 15; i++) {
             // Check if score has been set then continue
-            if (scores[i] != -1) {
+            if (i < 13 && scores[i] != -1) {
+                continue;
+            }
+            if (i == 6 || i == 7) {
+                i = 7;
                 continue;
             }
             
@@ -161,30 +170,6 @@ public class Examiner {
         if (category >= Scorecard.ACES && category <= Scorecard.SIXES) {
             // If Category is 1-6, then find the score for that category.
             return getNumberOfDice(face, rolls) * face;
-        }
-        else if (category == Scorecard.ONE_PAIR) {
-            // Used to create optimal results, @see credits
-            int maxPair = 0;
-            
-            for (int i = 0; i < 6; i++) {
-                if (getNumberOfDice(i+1, rolls) >= 2) {
-                    maxPair = i;
-                }
-            }
-            return (maxPair+1) * 2;
-        }
-        else if (category == Scorecard.TWO_PAIR) {
-            // Likewise, Used to create optiaml results, @see credits
-            int maxPair = 0;
-            int numPairs = 0;
-            
-            for (int i = 0; i < 6; i++) {
-              if (getNumberOfDice(i+1, rolls) >= 2) {
-                  maxPair += (i+1) * 2;
-                  numPairs++;
-                }
-            }
-            return (numPairs == 2) ? maxPair : 0;
         }
         else if (category == Scorecard.THREE_OF_A_KIND) {
             // Returns if 3 faces recurr.
@@ -259,7 +244,7 @@ public class Examiner {
         }
         else if(category == Scorecard.YAHTZEE) {
             // Yahtzee if 5 of a kind.
-            return getNOfAKind(5, rolls);
+            return (getNOfAKind(5, rolls) == 30) ? 50 : 0;
         }
         return 0;
     }
