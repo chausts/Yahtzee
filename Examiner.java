@@ -88,7 +88,24 @@ public class Examiner {
         for (int i = 0; i < keep.size(); i++) {
             merge[i] = keep.get(i);
         }
-        return merge;
+        int[] t = new int[5 - merge.length];
+        int count = 0;
+        for (int i = 0; i < 5; i++) {
+            int face = basicRoll[i];
+            boolean found = false;
+            int index = -1;
+            for (int k = 0; k < merge.length; k++) {
+                if (merge[k] == face) { found = true; index = k; break; }
+            }
+            if (!found) {
+                t[count] = i;
+                count++;
+            } else {
+                merge[index] = -1;
+            }
+        }
+               
+        return t;
     }
     
     /**
@@ -109,13 +126,9 @@ public class Examiner {
         int optimalCategoryScore = 0;
         
         // Iterate through each of the scores
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 13; i++) {
             // Check if score has been set then continue
             if (i < 13 && scores[i] != -1) {
-                continue;
-            }
-            if (i == 6 || i == 7) {
-                i = 7;
                 continue;
             }
             
