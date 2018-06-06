@@ -11,8 +11,6 @@ public class Scorecard {
     public static final int FIVES = 4;
     public static final int SIXES = 5;
     
-    public static final int ONE_PAIR = 6;
-    public static final int TWO_PAIR = 7;
     public static final int THREE_OF_A_KIND = 8;
     public static final int FOUR_OF_A_KIND = 9;
     public static final int FULL_HOUSE = 10;
