@@ -5,7 +5,7 @@ public class Tester
         Roll roll = new Roll();
         System.out.println(roll);
         System.out.println("=======================");
-        int[] optimal = Examiner.getOptimalKeep(scorecard, roll);
+        int[] optimal = Examiner.getOptimalKeep(scorecard, roll,1);
         for (int i : optimal) System.out.println(i);
     }
 }
