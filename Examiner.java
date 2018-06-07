@@ -31,7 +31,7 @@ public class Examiner {
      * @param roll      The specificed roll which should be analyzed.
      * @return          Optimal dices to keep.
      */
-    public static int[] getOptimalKeep(Scorecard scorecard, Roll roll, int rollNum) {
+    public static int[] getOptimalReRoll(Scorecard scorecard, Roll roll) {
         // Set standards for the current optimal.
         int optimalCategory = getOptimalCategory(scorecard, roll);
         int optimalCategoryScore = getCategoryScore(optimalCategory, roll.rolls);
@@ -44,12 +44,7 @@ public class Examiner {
         if (states == null) { states = new RollStates().states; }
         
         // Level of comparison based on original
-        int level = 1;
-        if (rollNum != 3) {
-            level = (getCategoryScore(8, roll.rolls) != 0) ? 3 : 2;
-        } else {
-            level = (getCategoryScore(8, roll.rolls) != 0) ? 4 : 3;
-        }
+        int level = (getCategoryScore(8, roll.rolls) != 0) ? 3 : 2;
         
         // Finds most optimal category based on similar states and level.
         ArrayList<int[]> matches = getMatches(basicRoll, states, level);
